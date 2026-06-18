@@ -1,0 +1,15 @@
+Mando break in D:
+
+E | E | E | B E |x4
+
+E | E | A | A | E | E | B | B
+
+E | E | A | A | E | B | E | E 
+
+Banjo Break in A:
+
+B | B | B | F# B |x4
+
+B | B | E | E | B | B | F# | F#
+
+B | B | E | E | B | F# | B | B
