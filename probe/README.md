@@ -9,8 +9,9 @@ See the repo's `DESIGN.md` for why these matter.
   - jam-book `lines[]` → inline ChordPro (`.cho`)
   - live transpose (column-preserving, word-boundary-safe)
   - chord ↔ Nashville Number toggle (key-relative, transpose-invariant)
-- **Notation/tab lane (next increment):** music21 + Verovio render-from-source + semantic
-  transpose, ABC ↔ MusicXML interchange, render to PDF.
+- **Notation/tab lane:** `notation_probe.py` — ABC → music21 → MusicXML → Verovio → SVG →
+  PDF/PNG. Semantic transpose (real pitches: notes *and* chord symbols), render-from-source,
+  and a shareable PDF. Deps in `requirements.txt`; `run.sh` reproduces it all in a venv.
 
 ## Run it
     python3 jam_to_chordpro.py [song_id ...]
@@ -26,6 +27,16 @@ faithfully from the jam-book reference app — if it's wrong here, it was wrong 
   auto-inline yet; bar-notation lines (`|A |E |`) pass through untouched; and embedded
   metadata lines (`Key:`, `Time:`, `Tempo:`) need dedicated handling. Exactly what a probe
   is for — the smart converter is part of step 3, now de-risked because we know the cases.
+- **Notation lane** ("Probe Reel in D"): the full pipeline runs in-sandbox. Semantic
+  transpose +M2 moved melody *and* chords correctly (`D G A → E A B`); Verovio engraved the
+  score from MusicXML; cairosvg produced PDF + PNG. (music21's *statistical* key analyzer
+  guessed the relative minor on the short snippet — a reminder to trust the source's
+  declared key, not auto-analysis.)
+
+## Bottom line
+The musical intelligence — transpose, Nashville, semantic transpose, render-from-source,
+PDF export — is cheap and works off-the-shelf. The real effort lives in **data
+conversion**: cleaning the existing corpus into good ChordPro / MusicXML masters.
 
 ## Not in this probe (needs your hardware)
 OMR of scanned tab/sheet music (Audiveris/oemer) and audio→notation (Basic Pitch) —
