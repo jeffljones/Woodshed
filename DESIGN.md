@@ -36,6 +36,8 @@ a broader local-first homelab ecosystem.
   across devices.
 - Store masters in **open, durable, flexible text formats** (ChordPro / MusicXML / ABC).
 - **Transpose** chord & lyric+chord charts live, in the app.
+- **Toggle chord/lyric charts between letter chords and the Nashville Number System** on
+  the fly — a core feature, not an extra.
 - **Display** notation and tab cleanly (view-only in the app).
 - **Share**: generate a downloadable **PDF** (default) and, optionally, the **raw master
   file**.
@@ -130,8 +132,12 @@ keys off filename + metadata.
 
 - **Lane A — Chord / lyric+chord charts (ChordPro).** Rendered **live from source** in
   the app. **Live transpose** (chord-symbol shift; reuse the Jam Book's word-boundary-safe
-  regex so comments like `(cycle throughout)` survive). Capo hints + Nashville numbers
-  carry over from the Jam Book logic. Share → transposed PDF + optional raw `.cho`.
+  regex so comments like `(cycle throughout)` survive). **Chord ↔ Nashville Number toggle** — a *core* feature: flip the whole chart between
+  letter chords (`G`, `C`, `D7`) and key-relative Nashville numbers (`1`, `4`, `5`) on
+  demand, so a tune can be read in any key. Because the numbers are key-relative, they
+  stay put when you transpose — that interplay is the point. Capo hints also carry over.
+  (All reuse the proven Jam Book logic: `toNash`, key detection, relative-major handling
+  for minor keys.) Share → transposed PDF + optional raw `.cho`.
 - **Lane B — Notation & tab (MusicXML / ABC, or pre-rendered PDF).** **View-only — no
   in-app transpose.** Display via in-browser renderer (Verovio / abcjs / OSMD) where it's
   clean, otherwise a **pipeline-rendered PDF** (the safe default, especially for tab,
@@ -151,7 +157,8 @@ A focused **catalog viewer**, modeled on the Jam Book UX the owner liked:
 - **Catalog/library:** browse, search, filter (tag / instrument / key), A–Z jump.
 - **Reading view** with a **format-aware render pane** (pluggable body — the net-new
   capability vs. the Jam Book, which was monospace text only).
-- **Live transpose on Lane A only**; capo + Nashville.
+- **Live transpose on Lane A only**, plus the **chord ↔ Nashville Number toggle** (core —
+  see §7) and capo hints.
 - **View-only PDF/notation** for Lane B.
 - **Utility drawer:** **tuner** (Web Audio + mic + pitch detection) and **metronome**
   (Web Audio scheduling). Self-contained; touch neither catalog nor data model.
@@ -209,6 +216,10 @@ Nashville, capo hints, key detection) and the non-destructive overlay pattern.
    version anyway, so re-layout is expected work.
 10. **Reuse the Jam Book's theory logic + UX; replace its data/render engine.**
 11. **Personal-first;** community/contribution model deferred.
+12. **Chord ↔ Nashville Number toggle is a core feature** of the chord lane (not a
+    nice-to-have): flip a chart between letter chords and key-relative numbers on demand.
+    Key-aware (needs the song key) and transpose-invariant — the numbers stay put when the
+    key changes, which is the whole point of the system. Reuses the Jam Book's `toNash`.
 
 ## 11. Jam Book: carries over vs. replaced
 
@@ -248,8 +259,8 @@ Nashville, capo hints, key detection) and the non-destructive overlay pattern.
 Honoring "ship small," and given **606 chord charts already exist**, the smallest useful
 slice is the **chord-chart lane done well**:
 
-> Catalog + ChordPro render + live transpose + capo/Nashville + share-as-PDF, seeded by
-> converting the Jam Book library to ChordPro.
+> Catalog + ChordPro render + live transpose + the chord↔Nashville toggle + capo hints +
+> share-as-PDF, seeded by converting the Jam Book library to ChordPro.
 
 Notation/tab (view-only PDFs), the tuner/metronome, and the OMR/audio pipeline come after.
 This is a sketch to react to later — **not** a plan to begin now.
