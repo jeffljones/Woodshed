@@ -1,6 +1,6 @@
 # Music Library & Viewer — Design Note
 
-> Working name: **Aertifact** (inherited from this repo, which we're repurposing).
+> Name: **Woodshed**.
 > Status: **living design note, not a build plan.** Captures the decisions and the
 > reasoning behind them as of 2026-06-18. Nothing here is committed to code yet.
 

@@ -1,4 +1,4 @@
-# Aertifact — app
+# Woodshed — app
 
 A browser viewer over the ChordPro library in `../library`: catalog browse + search,
 chords-over-lyrics rendering, **live transpose**, and a **chord ↔ Nashville Number toggle**.

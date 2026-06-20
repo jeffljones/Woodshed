@@ -5,6 +5,6 @@ import { defineConfig } from 'vite';
 export default defineConfig(({ command }) => ({
   // On GitHub Pages the app is served from /<repo>/, so the production build needs that
   // base path. Dev keeps '/' for a clean localhost.
-  base: command === 'build' ? '/aertifact-music-marketplace/' : '/',
+  base: command === 'build' ? '/woodshed/' : '/',
   publicDir: '../library',
 }));

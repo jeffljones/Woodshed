@@ -1,4 +1,4 @@
-# Aertifact — Music Library & Viewer
+# Woodshed — Music Library & Viewer
 
 A personal, free, self-hosted web app to **catalog, view, transpose, and share** a
 musician's written-music library — chord charts, lyric+chord charts, lead sheets, tab,

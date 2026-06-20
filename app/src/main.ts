@@ -8,7 +8,7 @@ let songs: Entry[] = [];
 
 function header(): HTMLElement {
   const h = document.createElement('header'); h.className = 'topbar';
-  const brand = document.createElement('div'); brand.className = 'brand'; brand.textContent = 'Aertifact';
+  const brand = document.createElement('div'); brand.className = 'brand'; brand.textContent = 'Woodshed';
   brand.onclick = showList;
   const sub = document.createElement('span'); sub.className = 'sub'; sub.textContent = `${songs.length} songs`;
   const spacer = document.createElement('div'); spacer.className = 'spacer';

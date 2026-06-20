@@ -2,7 +2,7 @@ name: Deploy app to GitHub Pages
 
 on:
   push:
-    branches: [main, claude/dazzling-cray-jt8vzj]
+    branches: [main]
     paths: [app/**, library/**, .github/workflows/deploy.yml]
   workflow_dispatch:
 
