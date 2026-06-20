@@ -33,3 +33,7 @@ next-env.d.ts
 __pycache__/
 *.pyc
 .venv/
+
+# node / build
+node_modules/
+dist/
