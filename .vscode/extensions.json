@@ -1,0 +1,8 @@
+{
+  // Recommended extensions for editing the ChordPro song masters in library/charts/*.cho.
+  // VS Code offers to install these when you open the repo.
+  "recommendations": [
+    "Homeputers.ya-chordpro",
+    "koedame.chordsketch"
+  ]
+}

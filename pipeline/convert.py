@@ -15,7 +15,8 @@ First pass: handles the cases the probe surfaced — blank-separated chord/lyric
 bar-notation grids, embedded Key/Time/Tempo metadata, section labels, and stubs — and
 *flags* anything ambiguous for review instead of guessing silently.
 
-Run:  python3 pipeline/convert.py
+Run:  python3 pipeline/convert.py            # incremental; never overwrites edited masters
+      python3 pipeline/convert.py --reseed    # wipe library/charts/ and regenerate all
 """
 import json, os, re, shutil, datetime
 from collections import Counter
@@ -163,14 +164,22 @@ STRUCTURAL = {'unpaired', 'odd-token'}
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser(description="jam-book JSON -> ChordPro masters + index")
+    ap.add_argument('--reseed', action='store_true',
+                    help='wipe library/charts/ and regenerate every .cho (DESTROYS hand '
+                         'edits). Default: create only missing files; never overwrite.')
+    args = ap.parse_args()
+
     data = json.load(open(SRC))
     songs = data.get('songs', [])
-    if os.path.isdir(CHARTS):
+    if args.reseed and os.path.isdir(CHARTS):
         shutil.rmtree(CHARTS)
     os.makedirs(CHARTS, exist_ok=True)
 
     used, index, flagcount = set(), [], Counter()
     n_stub = n_chart = n_clean = 0
+    n_written = n_skipped = 0
     flagged = []
 
     for s in songs:
@@ -180,7 +189,12 @@ def main():
         while sid in used:
             sid, k = '%s-%d' % (base, k), k + 1
         used.add(sid)
-        open(os.path.join(CHARTS, sid + '.cho'), 'w').write(text)
+        path = os.path.join(CHARTS, sid + '.cho')
+        if os.path.exists(path) and not args.reseed:
+            n_skipped += 1                       # preserve existing / hand-edited master
+        else:
+            open(path, 'w').write(text)
+            n_written += 1
 
         structural = [f for f in flags if f in STRUCTURAL]
         if 'stub' in flags:
@@ -218,10 +232,13 @@ def main():
     ] + ['- `%s` — %s' % (sid, ', '.join(fl)) for sid, fl in flagged[:25]] + ['']
     open(REPORT, 'w').write('\n'.join(rep))
 
+    print('mode:', 'reseed (full regenerate)' if args.reseed
+          else 'incremental (existing masters preserved)')
     print('total %d | stubs %d | charts %d | clean %d (%.1f%%) | flagged %d'
           % (len(songs), n_stub, n_chart, n_clean, pct, n_chart - n_clean))
+    print('files: %d written, %d preserved | index.json + CONVERSION_REPORT.md regenerated'
+          % (n_written, n_skipped))
     print('flags:', dict(flagcount))
-    print('wrote %d .cho files + index.json + CONVERSION_REPORT.md' % len(index))
 
 
 if __name__ == '__main__':
