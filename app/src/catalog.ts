@@ -16,16 +16,14 @@ export interface Entry {
 
 interface Index { version: number; generated: string; count: number; songs: Entry[]; }
 
-const BASE = import.meta.env.BASE_URL;
-
 export async function loadIndex(): Promise<Entry[]> {
-  const res = await fetch(BASE + 'index.json');
+  const res = await fetch('index.json');
   if (!res.ok) throw new Error(`index.json ${res.status}`);
   return ((await res.json()) as Index).songs;
 }
 
 export async function loadChart(file: string): Promise<string> {
-  const res = await fetch(BASE + file);
+  const res = await fetch(file);
   if (!res.ok) throw new Error(`${file} ${res.status}`);
   return res.text();
 }
