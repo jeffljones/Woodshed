@@ -80,6 +80,7 @@ button.on { background:var(--accent); color:var(--onAccent); border-color:var(--
 .badge.tab { color:var(--b-tab); border-color:color-mix(in srgb, var(--b-tab) 50%, transparent); }
 .badge.bar { color:var(--b-bar); border-color:color-mix(in srgb, var(--b-bar) 50%, transparent); }
 .badge.notation { color:var(--b-not); border-color:color-mix(in srgb, var(--b-not) 50%, transparent); }
+.badge.stub { color:var(--tmuted); border-style:dashed; }
 
 /* ---------- song view ---------- */
 .song-head { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:6px; }

@@ -1,6 +1,6 @@
 # Conversion report
 
-_Generated 2026-06-19 from `pipeline/import/song_library.json`._
+_Generated 2026-06-26 from `pipeline/import/song_library.json`._
 
 - total songs: **606**
 - stubs (metadata only): **243**
@@ -13,6 +13,11 @@ _Generated 2026-06-19 from `pipeline/import/song_library.json`._
 - `stub`: 243
 - `verify-queue`: 192
 - `unpaired`: 21
+
+## Content types
+
+- `chord_lyric`: 442
+- `bar_chart`: 164
 
 ## First 25 flagged charts
 

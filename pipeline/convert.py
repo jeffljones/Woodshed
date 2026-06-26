@@ -86,16 +86,17 @@ def header(song):
 
 
 def convert(song):
-    """Return (chordpro_text, flags)."""
+    """Return (chordpro_text, flags, chart_type)."""
     flags = []
     out = header(song)
     if is_stub(song):
         out.append('{comment: stub — no chart yet}')
-        return '\n'.join(out) + '\n', ['stub']
+        return '\n'.join(out) + '\n', ['stub'], 'chord_lyric'
 
     lines = song['lines']
     n = len(lines)
     grid_open = False
+    emitted_grid = False
     non_bar_chords = pairings = 0
     i = 0
 
@@ -127,6 +128,7 @@ def convert(song):
                 if not grid_open:
                     out.append('{start_of_grid}')
                     grid_open = True
+                    emitted_grid = True
                 out.append(x)
                 i += 1
                 continue
@@ -157,7 +159,10 @@ def convert(song):
         flags.append('unpaired')
     if 'auto-chords' in (song.get('tags') or []):
         flags.append('verify-queue')
-    return '\n'.join(out) + '\n', flags
+    # Content type: a pure bar/number grid (bars, no inline chord+lyric pairs) is a
+    # bar_chart; anything with paired lyrics (or plain chords) reads as chord_lyric.
+    ctype = 'bar_chart' if (emitted_grid and pairings == 0) else 'chord_lyric'
+    return '\n'.join(out) + '\n', flags, ctype
 
 
 STRUCTURAL = {'unpaired', 'odd-token'}
@@ -177,13 +182,13 @@ def main():
         shutil.rmtree(CHARTS)
     os.makedirs(CHARTS, exist_ok=True)
 
-    used, index, flagcount = set(), [], Counter()
+    used, index, flagcount, typecount = set(), [], Counter(), Counter()
     n_stub = n_chart = n_clean = 0
     n_written = n_skipped = 0
     flagged = []
 
     for s in songs:
-        text, flags = convert(s)
+        text, flags, ctype = convert(s)
         base = slugify(s.get('title'))
         sid, k = base, 2
         while sid in used:
@@ -197,7 +202,8 @@ def main():
             n_written += 1
 
         structural = [f for f in flags if f in STRUCTURAL]
-        if 'stub' in flags:
+        stub = 'stub' in flags
+        if stub:
             n_stub += 1
         else:
             n_chart += 1
@@ -206,15 +212,26 @@ def main():
             else:
                 flagged.append((sid, structural))
         flagcount.update(flags)
+        typecount.update([ctype])
+
+        # A Work (song) is a container of one-or-more Charts (arrangements). The current
+        # corpus is 1:1 (one ChordPro master each); the array is where future banjo /
+        # re-keyed / notation arrangements land. Per-master provenance lives on the chart.
+        chart = {
+            'id': sid, 'type': ctype, 'format': 'chordpro', 'key': s.get('key'),
+            'file': 'charts/%s.cho' % sid, 'hasChords': bool(s.get('hasChords')),
+            'stub': stub, 'importFmt': s.get('fmt'), 'source': s.get('source'),
+            'flags': flags, 'needsReview': bool(structural),
+        }
         index.append({
             'id': sid, 'title': s.get('title'), 'key': s.get('key'), 'lead': s.get('lead'),
-            'tags': s.get('tags') or [], 'fmt': s.get('fmt'), 'hasChords': bool(s.get('hasChords')),
-            'source': s.get('source'), 'jambook_id': s.get('id'),
-            'file': 'charts/%s.cho' % sid, 'flags': flags, 'needs_review': bool(structural),
+            'tags': s.get('tags') or [], 'jambookId': s.get('id'),
+            'needsReview': bool(structural), 'charts': [chart],
         })
 
-    json.dump({'version': 1, 'generated': str(datetime.date.today()),
-               'count': len(index), 'songs': index},
+    json.dump({'version': 2, 'generated': str(datetime.date.today()),
+               'count': len(index), 'chartCount': sum(len(e['charts']) for e in index),
+               'songs': index},
               open(INDEX, 'w'), indent=1, ensure_ascii=False)
 
     pct = (100.0 * n_clean / n_chart) if n_chart else 0
@@ -228,6 +245,8 @@ def main():
         '  - flagged for review: **%d**' % (n_chart - n_clean), '',
         '## Flag counts', '',
     ] + ['- `%s`: %d' % (k, v) for k, v in flagcount.most_common()] + [
+        '', '## Content types', '',
+    ] + ['- `%s`: %d' % (k, v) for k, v in typecount.most_common()] + [
         '', '## First 25 flagged charts', '',
     ] + ['- `%s` — %s' % (sid, ', '.join(fl)) for sid, fl in flagged[:25]] + ['']
     open(REPORT, 'w').write('\n'.join(rep))
@@ -239,6 +258,7 @@ def main():
     print('files: %d written, %d preserved | index.json + CONVERSION_REPORT.md regenerated'
           % (n_written, n_skipped))
     print('flags:', dict(flagcount))
+    print('types:', dict(typecount))
 
 
 if __name__ == '__main__':

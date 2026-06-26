@@ -1,9 +1,17 @@
-import { type Entry, sortKey } from '../catalog';
+import { type Entry, type ChartType, sortKey, primaryChart, hasChart } from '../catalog';
 
 const TAGS: [string, string][] = [
   ['all', 'All'], ['charts', 'Has chart'], ['jam', 'Jam'], ['instrumental', 'Instrumental'],
   ['jjb', 'JJB'], ['trio', 'Trio'], ['tt', 'TT'], ['gypsy-wind', 'Gypsy Wind'],
 ];
+
+// Content-type badge: [css class, label]. Classes are themed in styles.css.
+const TYPE_BADGE: Record<ChartType, [string, string]> = {
+  chord_lyric: ['cl', 'Chords'],
+  bar_chart: ['bar', 'Bars'],
+  tab: ['tab', 'Tab'],
+  notation: ['notation', 'Score'],
+};
 
 export function renderList(songs: Entry[], onOpen: (e: Entry) => void): HTMLElement {
   const root = document.createElement('div'); root.className = 'view list';
@@ -18,7 +26,7 @@ export function renderList(songs: Entry[], onOpen: (e: Entry) => void): HTMLElem
   let tag = 'all';
 
   function passes(s: Entry): boolean {
-    if (tag === 'charts' && !s.hasChords) return false;
+    if (tag === 'charts' && !hasChart(s)) return false;
     if (tag !== 'all' && tag !== 'charts' && !s.tags.includes(tag)) return false;
     if (q && !s.title.toLowerCase().includes(q)) return false;
     return true;
@@ -26,6 +34,14 @@ export function renderList(songs: Entry[], onOpen: (e: Entry) => void): HTMLElem
 
   function badge(cls: string, text: string): HTMLElement {
     const b = document.createElement('span'); b.className = 'badge ' + cls; b.textContent = text; return b;
+  }
+
+  function contentBadge(s: Entry): HTMLElement | null {
+    const pc = primaryChart(s);
+    if (!pc) return null;
+    if (pc.stub) return badge('stub', 'Stub');
+    const [cls, label] = TYPE_BADGE[pc.type];
+    return badge(cls, label);
   }
 
   function draw() {
@@ -45,7 +61,8 @@ export function renderList(songs: Entry[], onOpen: (e: Entry) => void): HTMLElem
       const t = document.createElement('div'); t.className = 'row-title'; t.textContent = s.title;
       r.appendChild(t);
       if (s.lead) r.appendChild(badge('lead', s.lead));
-      if (s.hasChords) r.appendChild(badge('chords', '♪'));
+      const cb = contentBadge(s);
+      if (cb) r.appendChild(cb);
       if (s.key) r.appendChild(badge('key', s.key));
       rows.appendChild(r);
     }

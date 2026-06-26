@@ -1,4 +1,4 @@
-import { type Entry, loadChart } from '../catalog';
+import { type Entry, loadChart, primaryChart } from '../catalog';
 import { parseChordPro } from '../chordpro';
 import { renderSong } from '../render';
 import { keyPrefersFlat, soundingKey, capoHint } from '../music';
@@ -17,7 +17,14 @@ function lbl(text: string, val?: HTMLElement): HTMLElement {
 
 export async function renderSongView(entry: Entry, onBack: () => void): Promise<HTMLElement> {
   const root = document.createElement('div'); root.className = 'view song';
-  const raw = await loadChart(entry.file);
+  const chart = primaryChart(entry);
+  if (!chart) {
+    const back = btn('← Songs'); back.onclick = onBack;
+    const msg = document.createElement('p'); msg.className = 'loading'; msg.textContent = 'No chart for this song yet.';
+    root.append(back, msg);
+    return root;
+  }
+  const raw = await loadChart(chart.file);
   const song = parseChordPro(raw);
 
   let transpose = 0;
@@ -69,7 +76,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   dl.onclick = () => {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([raw], { type: 'text/plain' }));
-    a.download = entry.id + '.cho';
+    a.download = chart.id + '.cho';
     a.click();
   };
 

@@ -295,9 +295,12 @@ nothing clever).
   musicxml | pdf. Library shows a content-type badge per chart.
 
 **Implementation order (on top of the live chord-lane app):**
-1. **Visual refresh** — theme tokens + 3 fonts + Auto/Light/Dark switcher + chord prominence. ← *in progress*
-2. Data model: group charts under songs + per-chart type + content badges.
-3. Master–detail Home shell (M) + A–Z jump bar + sort/filter.
+1. **Visual refresh** — theme tokens + 3 fonts + Auto/Light/Dark switcher + chord prominence. ← *done*
+2. **Data model** — group charts under songs + per-chart type + content badges. ← *done*
+   (index v2: `songs[].charts[]`; per-chart `type` ∈ chord_lyric/bar_chart/tab/notation +
+   `format`; chord_lyric vs bar_chart auto-detected in `convert.py`; library shows a
+   content-type badge; `npm run check` guards the generator→app index contract.)
+3. Master–detail Home shell (M) + A–Z jump bar + sort/filter. ← *next*
 4. Bar/number chart view (B) + ChordPro shorthand (`‖: :‖ ×2`, `%`, `1-`, `4/6`, `x3`) +
    real `{start_of_verse}` sections. Arrangement switcher (K).
 5. In-app ChordPro editor (H). Export/share sheet (I) + themed PDF.
