@@ -6,7 +6,7 @@ import '@fontsource/hanken-grotesk/600.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/600.css';
 import { loadIndex, type Entry } from './catalog';
-import { renderList } from './ui/list';
+import { renderHome } from './ui/home';
 import { renderSongView } from './ui/song';
 import { initTheme, buildThemeControl } from './theme';
 
@@ -31,7 +31,7 @@ function mount(view: HTMLElement) {
 
 function showList() {
   history.replaceState(null, '', '#');
-  mount(renderList(songs, openSong));
+  mount(renderHome(songs, openSong));
 }
 
 async function openSong(e: Entry) {

@@ -300,9 +300,12 @@ nothing clever).
    (index v2: `songs[].charts[]`; per-chart `type` ∈ chord_lyric/bar_chart/tab/notation +
    `format`; chord_lyric vs bar_chart auto-detected in `convert.py`; library shows a
    content-type badge; `npm run check` guards the generator→app index contract.)
-3. Master–detail Home shell (M) + A–Z jump bar + sort/filter. ← *next*
+3. **Master–detail Home shell** (M) + A–Z jump bar + sort/filter. ← *done*
+   (left sidebar filter-nav with live counts — Library / Type / Collections; right pane =
+   search + sort (title/key/type) + list⇄grid toggle + A–Z jump rail + badged rows/cards;
+   sidebar collapses to a Filters drawer on mobile.)
 4. Bar/number chart view (B) + ChordPro shorthand (`‖: :‖ ×2`, `%`, `1-`, `4/6`, `x3`) +
-   real `{start_of_verse}` sections. Arrangement switcher (K).
+   real `{start_of_verse}` sections. Arrangement switcher (K). ← *next*
 5. In-app ChordPro editor (H). Export/share sheet (I) + themed PDF.
 6. Setlists + performance mode (N). Auto-scroll (A).
 7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D).
