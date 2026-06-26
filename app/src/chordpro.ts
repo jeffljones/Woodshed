@@ -50,7 +50,7 @@ export function parseChordPro(text: string): Song {
       continue;
     }
     if (raw.trim() === '') { song.lines.push({ kind: 'blank' }); continue; }
-    if (inGrid) { song.lines.push({ kind: 'grid', text: raw }); continue; }
+    if (inGrid || looksLikeBars(raw)) { song.lines.push({ kind: 'grid', text: raw }); continue; }
     song.lines.push({ kind: 'lyric', segments: parseSegments(raw) });
   }
   return song;
@@ -71,4 +71,20 @@ function parseSegments(line: string): Segment[] {
   const tail = line.slice(last);
   if (tail || pending !== undefined) segs.push({ chord: pending, text: tail });
   return segs.length ? segs : [{ text: line }];
+}
+
+// A bar/number line carries barlines and only chord / barline / repeat tokens — no lyric
+// words. We promote such lines (even when the source didn't wrap them in {start_of_grid})
+// to the grid renderer, so bar notation looks consistent wherever it appears.
+const BAR_CHORD = /^[A-G][#b]?(?:maj|min|sus|dim|aug|add|m|M|°|\+|b5|[0-9`^.]|\/[A-G][#b]?)*$/;
+function looksLikeBars(line: string): boolean {
+  if (!line.includes('|')) return false;
+  let chords = 0;
+  for (let tok of line.trim().split(/\s+/)) {
+    tok = tok.replace(/[|:]/g, '').replace(/\(?[xX]\d+\)?/g, ''); // strip barlines + repeat counts
+    if (tok === '') continue;
+    if (BAR_CHORD.test(tok)) chords++;
+    else return false; // a non-chord token means it's lyrics, not a bar line
+  }
+  return chords > 0;
 }

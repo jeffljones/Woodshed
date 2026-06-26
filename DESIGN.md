@@ -304,9 +304,15 @@ nothing clever).
    (left sidebar filter-nav with live counts — Library / Type / Collections; right pane =
    search + sort (title/key/type) + list⇄grid toggle + A–Z jump rail + badged rows/cards;
    sidebar collapses to a Filters drawer on mobile.)
-4. Bar/number chart view (B) + ChordPro shorthand (`‖: :‖ ×2`, `%`, `1-`, `4/6`, `x3`) +
-   real `{start_of_verse}` sections. Arrangement switcher (K). ← *next*
-5. In-app ChordPro editor (H). Export/share sheet (I) + themed PDF.
+4. **Bar/number chart view** (B) + ChordPro shorthand + arrangement switcher (K). ← *done*
+   (grid lines render as bar cells with `‖: :‖` repeat marks + `×N` counts; unmarked bar
+   lines auto-promote to the grid renderer; the Nashville toggle turns a bar chart into a
+   number chart. Switcher shows when a Work has >1 chart. Deferred — not present in the
+   corpus yet: `%`/`1-`/`4/6` shorthand and real `{start_of_verse}` section environments;
+   these ride along with the converter/indexer work.)
+5. In-app ChordPro editor (H). Export/share sheet (I) + themed PDF. ← *next*
+   (do the **master-scanning indexer** first — see §9 gap — so the editor writes to a model
+   that re-indexes itself, and dropping in a prepared `.cho`/MusicXML/PDF "just works".)
 6. Setlists + performance mode (N). Auto-scroll (A).
 7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D).
 8. (Later) Aligned beat-grid (F).

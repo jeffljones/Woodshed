@@ -85,6 +85,10 @@ button.on { background:var(--accent); color:var(--onAccent); border-color:var(--
 /* ---------- song view ---------- */
 .song-head { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:6px; }
 .song-title { font-family:var(--font-title); font-weight:600; font-size:27px; color:var(--thead); margin:0; flex:1; }
+.arrangements { display:flex; gap:6px; flex-wrap:wrap; margin:2px 0 8px; }
+.arr { background:var(--panel); border:1px solid var(--border); color:var(--tsec); border-radius:999px;
+  padding:5px 12px; font-size:13px; min-height:32px; font-family:var(--font-ui); }
+.arr.on { background:var(--accent); color:var(--onAccent); border-color:var(--accent); font-weight:600; }
 .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; position:sticky; top:56px;
   background:var(--surface); padding:8px 0; border-bottom:1px solid var(--hborder); z-index:10; }
 .group { display:flex; align-items:center; gap:2px; background:var(--panel); border:1px solid var(--border);
@@ -101,7 +105,14 @@ button.on { background:var(--accent); color:var(--onAccent); border-color:var(--
 /* section eyebrows + label/comment lines */
 .ln.comment, .ln.section { font-family:var(--font-ui); font-size:.62em; font-weight:600;
   letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:.9em 0 .1em; }
-.ln.grid { font-family:var(--font-mono); color:var(--chord); font-weight:600; white-space:pre-wrap; }
+/* bar/number chart line: chord cells between styled barlines, repeat marks, ×N badge */
+.ln.grid { display:flex; flex-wrap:wrap; align-items:baseline; gap:3px 4px; font-size:.82em;
+  font-family:var(--font-mono); font-weight:600; margin:.2em 0; }
+.ln.grid .bar { display:inline-flex; gap:9px; padding:1px 9px; color:var(--chord); }
+.ln.grid .barline { color:var(--tfaint); font-weight:400; }
+.ln.grid .barline.rep { color:var(--accent); font-weight:700; }
+.ln.grid .rep-times { color:var(--tsec); font-family:var(--font-ui); font-size:.78em; font-weight:600;
+  align-self:center; margin-left:2px; }
 .ln.lyric { display:flex; flex-wrap:wrap; align-items:flex-end; }
 .seg { display:inline-flex; flex-direction:column; justify-content:flex-end; }
 /* chords: prominent, monospace, accent — must read from playing distance */
