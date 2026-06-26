@@ -15,22 +15,17 @@ export interface Chart {
   key: string | null;
   file: string;
   hasChords: boolean;
-  stub: boolean;            // metadata-only placeholder, no chart content yet
-  importFmt: string | null; // provenance: original import-source format (docx/xls/…)
-  source: string | null;    // provenance: original file path
-  flags: string[];
-  needsReview: boolean;
+  stub: boolean;         // metadata-only placeholder, no chart content yet
+  source: string | null; // provenance: original file path, from {meta: source}
 }
 
 export interface Entry {
   id: string;
   title: string;
-  key: string | null;       // canonical key (mirrors the primary chart)
+  key: string | null;    // canonical key (mirrors the primary chart)
   lead: string | null;
   tags: string[];
-  jambookId: string | null;
   charts: Chart[];
-  needsReview: boolean;
 }
 
 interface Index { version: number; generated: string; count: number; songs: Entry[]; }

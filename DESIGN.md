@@ -192,7 +192,11 @@ Nashville, capo hints, key detection) and the non-destructive overlay pattern.
   and PDF. Used both for the app's view-only lane and for share/export PDFs.
 - **Catalog/index builder:** scans masters, extracts + normalizes metadata, dedupes
   (prefer charted, fold metadata, record provenance), emits the JSON index the app
-  consumes.
+  consumes. *(Implemented for the chord lane: `app/scripts/build-index.ts` / `npm run
+  build-index` scans the `.cho` masters — reusing the app's own ChordPro parser, so a chart
+  is classified exactly the way it renders. `convert.py` is now seed-bootstrap only; masters
+  are the single source of truth. MusicXML/PDF readers slot into the builder when those
+  masters exist — PDF will need a metadata sidecar.)*
 - Heavy jobs run as **batch on Vanguard's GPU**, not always-on Pi services.
 
 ## 10. Decision log (what we decided, and why)
@@ -311,8 +315,10 @@ nothing clever).
    corpus yet: `%`/`1-`/`4/6` shorthand and real `{start_of_verse}` section environments;
    these ride along with the converter/indexer work.)
 5. In-app ChordPro editor (H). Export/share sheet (I) + themed PDF. ← *next*
-   (do the **master-scanning indexer** first — see §9 gap — so the editor writes to a model
-   that re-indexes itself, and dropping in a prepared `.cho`/MusicXML/PDF "just works".)
+   (Foundation done — the **master-scanning index builder** (`npm run build-index`) now
+   generates `index.json` from the `.cho` masters, so a dropped-in or edited master is
+   picked up directly; `convert.py` is demoted to seed bootstrap. The editor writes to that
+   self-indexing model.)
 6. Setlists + performance mode (N). Auto-scroll (A).
 7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D).
 8. (Later) Aligned beat-grid (F).

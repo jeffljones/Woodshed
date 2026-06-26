@@ -14,11 +14,6 @@ _Generated 2026-06-26 from `pipeline/import/song_library.json`._
 - `verify-queue`: 192
 - `unpaired`: 21
 
-## Content types
-
-- `chord_lyric`: 442
-- `bar_chart`: 164
-
 ## First 25 flagged charts
 
 - `16-16` — unpaired

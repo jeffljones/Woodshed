@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "build-index": "tsx scripts/build-index.ts",
     "check": "tsx scripts/check-index.ts",
     "smoke": "tsx scripts/smoke.ts"
   },
