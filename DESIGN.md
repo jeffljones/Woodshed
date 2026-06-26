@@ -264,3 +264,43 @@ slice is the **chord-chart lane done well**:
 
 Notation/tab (view-only PDFs), the tuner/metronome, and the OMR/audio pipeline come after.
 This is a sketch to react to later — **not** a plan to begin now.
+
+## 14. v2 — Design-handoff reconciliation (decided)
+
+A full UI design handoff ("Song View & Library — Chart / Tab / Notation App") landed and is
+now the visual + feature north star. It **extends** this doc rather than contradicting it —
+the data model and format decisions line up. Key calls:
+
+**Confirmed (already matched here):** Song = container of one-or-more Charts = the
+Work→Arrangements model (§6); ChordPro editable + render-time transpose/capo/Nashville;
+MusicXML view-only + MuseScore round-trip; no cross-arrangement sync (a chart switcher,
+nothing clever).
+
+**New decisions:**
+- **Themes:** ship **Console (dark, default)** + **Fakebook (light)** + **Auto**
+  (`prefers-color-scheme`). One token set, `data-theme` switch, persisted. Type system:
+  **Spectral** (titles), **Hanken Grotesk** (UI/lyrics), **IBM Plex Mono** (chords/tab/
+  numbers). Chords get real prominence (14px/600/mono/accent), not tiny superscripts.
+- **Notation/tab (revised):** render **view-only from MusicXML as SVG (Verovio), recolored
+  live to the active theme**. The **aligned multi-layer beat-grid (handoff "F") is TABLED**
+  for later. Export/print → themed PDF (cairosvg), defaulting to the light "paper" look.
+  Editing still round-trips to MuseScore.
+- **PDF-only lane (new):** for music that exists *only* as a PDF and won't convert cleanly,
+  a **view-only PDF chart type** (PDF.js) with a **dark-invert toggle** for stage glare.
+- **App shell:** flat list → **master–detail Home (M)** (sidebar nav + right pane: search /
+  sort-filter / list⇄grid / A–Z jump bar / badge'd rows).
+- **Setlists (N):** ordered, reorderable performance queue; set-scoped key/capo overrides;
+  Start/Next/Prev performance mode.
+- **Chart types (4):** chord_lyric · bar_chart · tab · notation; format = chordpro |
+  musicxml | pdf. Library shows a content-type badge per chart.
+
+**Implementation order (on top of the live chord-lane app):**
+1. **Visual refresh** — theme tokens + 3 fonts + Auto/Light/Dark switcher + chord prominence. ← *in progress*
+2. Data model: group charts under songs + per-chart type + content badges.
+3. Master–detail Home shell (M) + A–Z jump bar + sort/filter.
+4. Bar/number chart view (B) + ChordPro shorthand (`‖: :‖ ×2`, `%`, `1-`, `4/6`, `x3`) +
+   real `{start_of_verse}` sections. Arrangement switcher (K).
+5. In-app ChordPro editor (H). Export/share sheet (I) + themed PDF.
+6. Setlists + performance mode (N). Auto-scroll (A).
+7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D).
+8. (Later) Aligned beat-grid (F).

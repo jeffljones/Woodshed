@@ -10,5 +10,10 @@
   "devDependencies": {
     "typescript": "^5.4.0",
     "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "@fontsource/hanken-grotesk": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@fontsource/spectral": "^5.2.8"
   }
 }

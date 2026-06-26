@@ -1,7 +1,14 @@
 import './styles.css';
+import '@fontsource/spectral/600.css';
+import '@fontsource/hanken-grotesk/400.css';
+import '@fontsource/hanken-grotesk/500.css';
+import '@fontsource/hanken-grotesk/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/600.css';
 import { loadIndex, type Entry } from './catalog';
 import { renderList } from './ui/list';
 import { renderSongView } from './ui/song';
+import { initTheme, buildThemeControl } from './theme';
 
 const app = document.getElementById('app') as HTMLElement;
 let songs: Entry[] = [];
@@ -12,10 +19,7 @@ function header(): HTMLElement {
   brand.onclick = showList;
   const sub = document.createElement('span'); sub.className = 'sub'; sub.textContent = `${songs.length} songs`;
   const spacer = document.createElement('div'); spacer.className = 'spacer';
-  const theme = document.createElement('button'); theme.className = 'theme'; theme.textContent = '◐';
-  theme.title = 'Toggle day / stage';
-  theme.onclick = () => document.body.classList.toggle('day');
-  h.append(brand, sub, spacer, theme);
+  h.append(brand, sub, spacer, buildThemeControl());
   return h;
 }
 
@@ -50,4 +54,5 @@ async function boot() {
   else showList();
 }
 
+initTheme();
 boot();
