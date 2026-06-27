@@ -89,6 +89,20 @@ button.on { background:var(--accent); color:var(--onAccent); border-color:var(--
 .arr { background:var(--panel); border:1px solid var(--border); color:var(--tsec); border-radius:999px;
   padding:5px 12px; font-size:13px; min-height:32px; font-family:var(--font-ui); }
 .arr.on { background:var(--accent); color:var(--onAccent); border-color:var(--accent); font-weight:600; }
+.badge.edited { color:var(--accent); border-color:color-mix(in srgb, var(--accent) 50%, transparent); }
+
+/* ---------- in-app ChordPro editor (step 5) ---------- */
+.editor-wrap { padding-top:8px; }
+.editor-bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+.editor-hint { color:var(--tmuted); font-size:12px; font-family:var(--font-ui); }
+.editor-panes { display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:start; }
+.editor-text { width:100%; min-height:62vh; resize:vertical; background:var(--panel); color:var(--tprim);
+  border:1px solid var(--border); border-radius:10px; padding:12px; font-family:var(--font-mono);
+  font-size:14px; line-height:1.6; }
+.editor-text:focus { outline:2px solid var(--accent); outline-offset:-1px; }
+.editor-preview { background:var(--surface); border:1px solid var(--divider); border-radius:10px;
+  padding:12px 16px; min-height:62vh; overflow:auto; }
+@media (max-width:760px) { .editor-panes { grid-template-columns:1fr; } }
 .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; position:sticky; top:56px;
   background:var(--surface); padding:8px 0; border-bottom:1px solid var(--hborder); z-index:10; }
 .group { display:flex; align-items:center; gap:2px; background:var(--panel); border:1px solid var(--border);
