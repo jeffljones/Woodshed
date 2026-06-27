@@ -103,6 +103,35 @@ button.on { background:var(--accent); color:var(--onAccent); border-color:var(--
 .editor-preview { background:var(--surface); border:1px solid var(--divider); border-radius:10px;
   padding:12px 16px; min-height:62vh; overflow:auto; }
 @media (max-width:760px) { .editor-panes { grid-template-columns:1fr; } }
+button:disabled { opacity:.45; cursor:default; }
+
+/* ---------- share / export sheet (step 5) ---------- */
+.share-backdrop { position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.5);
+  display:flex; align-items:center; justify-content:center; padding:16px; }
+.share-sheet { width:min(420px,100%); display:flex; flex-direction:column; gap:8px;
+  background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px; }
+.share-title { font-family:var(--font-title); font-size:18px; color:var(--thead); margin:2px 2px 6px; }
+.share-opt { display:flex; flex-direction:column; align-items:flex-start; gap:2px; text-align:left; padding:12px 14px; }
+.share-opt:hover { border-color:var(--accent); }
+.share-opt-label { font-size:15px; font-weight:600; color:var(--tprim); }
+.share-opt-sub { font-size:12px; color:var(--tmuted); font-family:var(--font-ui); }
+.share-close { align-self:flex-end; margin-top:4px; }
+
+/* themed print: a clean "paper" chart in its current key, app chrome hidden */
+@media print {
+  .topbar, .controls, .arrangements, .editor-wrap, .az, .sidebar, .share-backdrop,
+  .song-head button, .capo { display:none !important; }
+  html, body { background:#fff !important; color:#1a1a1a !important; }
+  .view, .view.song { padding:0; max-width:none; margin:0; }
+  .song-head { margin-bottom:10px; }
+  .song-title { color:#111 !important; font-size:24px; }
+  .badge.key { color:#444 !important; border-color:#bbb !important; }
+  .badge.edited, .badge.lead { display:none !important; }
+  .song-body { color:#1a1a1a !important; }
+  .seg-chord, .ln.comment, .ln.section, .ln.grid .bar, .ln.grid .barline.rep { color:#9a5b1a !important; }
+  .ln.grid .barline { color:#888 !important; }
+  @page { margin:1.5cm; }
+}
 .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; position:sticky; top:56px;
   background:var(--surface); padding:8px 0; border-bottom:1px solid var(--hborder); z-index:10; }
 .group { display:flex; align-items:center; gap:2px; background:var(--panel); border:1px solid var(--border);

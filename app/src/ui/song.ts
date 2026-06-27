@@ -4,6 +4,7 @@ import { renderSong } from '../render';
 import { keyPrefersFlat, soundingKey, capoHint } from '../music';
 import { overlayGet, overlaySet, overlayClear, overlayHas } from '../overlays';
 import { renderEditor } from './editor';
+import { openShareSheet } from './share';
 
 function btn(label: string): HTMLButtonElement {
   const b = document.createElement('button'); b.textContent = label; return b;
@@ -72,7 +73,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   const nashBtn = btn('Nashville');
   const fDown = btn('A−'), fUp = btn('A+');
   const editBtn = btn('✎ Edit');
-  const dl = btn('⤓ .cho');
+  const shareBtn = btn('⤴ Share');
   const capo = document.createElement('span'); capo.className = 'capo';
   const controls = document.createElement('div'); controls.className = 'controls';
   controls.append(
@@ -81,7 +82,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
     group([fDown, lbl('Size'), fUp]),
     capo,
     editBtn,
-    dl,
+    shareBtn,
   );
 
   const wrap = document.createElement('div'); wrap.className = 'song-body-wrap';
@@ -135,12 +136,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   fUp.onclick = () => { fontPx = Math.min(34, fontPx + 2); draw(); };
   fDown.onclick = () => { fontPx = Math.max(12, fontPx - 2); draw(); };
   editBtn.onclick = enterEdit;
-  dl.onclick = () => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([raw], { type: 'text/plain' }));
-    a.download = current!.id + '.cho';
-    a.click();
-  };
+  shareBtn.onclick = () => openShareSheet({ rawText: raw, filename: current!.id + '.cho' });
 
   buildSwitcher();
   syncEdited();

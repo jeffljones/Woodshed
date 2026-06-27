@@ -314,11 +314,13 @@ nothing clever).
    number chart. Switcher shows when a Work has >1 chart. Deferred — not present in the
    corpus yet: `%`/`1-`/`4/6` shorthand and real `{start_of_verse}` section environments;
    these ride along with the converter/indexer work.)
-5. In-app ChordPro editor (H). Export/share sheet (I) + themed PDF. ← *next*
-   (Foundation done — the **master-scanning index builder** (`npm run build-index`) now
-   generates `index.json` from the `.cho` masters, so a dropped-in or edited master is
-   picked up directly; `convert.py` is demoted to seed bootstrap. The editor writes to that
-   self-indexing model.)
-6. Setlists + performance mode (N). Auto-scroll (A).
+5. **In-app ChordPro editor** (H) + **export/share sheet** (I) + themed PDF. ← *done*
+   (Foundation: the master-scanning index builder generates `index.json` from the masters,
+   so editing a master is first-class. Editor: ✎ Edit → source + live preview, saved to a
+   **non-destructive localStorage overlay** — the master is never mutated; an "edited" badge
+   marks overlaid charts; revert = clear the overlay. Share sheet: **Save as PDF** via a
+   themed "paper" `@media print` stylesheet reflecting the current key/Nashville, Download
+   `.cho`, Copy ChordPro. All static-host-safe.)
+6. Setlists + performance mode (N). Auto-scroll (A). ← *next*
 7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D).
 8. (Later) Aligned beat-grid (F).
