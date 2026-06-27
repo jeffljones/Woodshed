@@ -46,6 +46,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   let transpose = 0;
   let nashville = false;
   let fontPx = 19;
+  let scrolling = false, scrollSpeed = 24, scrollAcc = 0, scrollLast = 0, scrollRaf = 0;
 
   const back = btn('← Songs'); back.onclick = onBack;
   const title = document.createElement('h1'); title.className = 'song-title';
@@ -74,12 +75,15 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   const fDown = btn('A−'), fUp = btn('A+');
   const editBtn = btn('✎ Edit');
   const shareBtn = btn('⤴ Share');
+  const spdDown = btn('−'), spdUp = btn('+');
+  const playBtn = btn('▶'); playBtn.title = 'Auto-scroll';
   const capo = document.createElement('span'); capo.className = 'capo';
   const controls = document.createElement('div'); controls.className = 'controls';
   controls.append(
     group([tDown, lbl('Transpose ', tVal), tUp]),
     nashBtn,
     group([fDown, lbl('Size'), fUp]),
+    group([spdDown, playBtn, spdUp]),
     capo,
     editBtn,
     shareBtn,
@@ -101,6 +105,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   }
 
   function enterEdit() {
+    stopScroll();
     controls.style.display = 'none'; wrap.style.display = 'none';
     editorWrap.innerHTML = '';
     editorWrap.appendChild(renderEditor({
@@ -135,6 +140,31 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   nashBtn.onclick = () => { nashville = !nashville; draw(); };
   fUp.onclick = () => { fontPx = Math.min(34, fontPx + 2); draw(); };
   fDown.onclick = () => { fontPx = Math.max(12, fontPx - 2); draw(); };
+
+  // Auto-scroll (A): rAF loop scrolls the page at an adjustable rate; sub-pixel accumulated
+  // so slow speeds still move. Self-stops at the bottom or when the view is torn down.
+  function stopScroll() {
+    scrolling = false; cancelAnimationFrame(scrollRaf);
+    playBtn.textContent = '▶'; playBtn.classList.remove('on');
+  }
+  function scrollFrame(ts: number) {
+    if (!scrolling || !root.isConnected) { stopScroll(); return; }
+    if (scrollLast) {
+      scrollAcc += (scrollSpeed * (ts - scrollLast)) / 1000;
+      const px = Math.floor(scrollAcc);
+      if (px >= 1) { window.scrollBy(0, px); scrollAcc -= px; }
+    }
+    scrollLast = ts;
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 1) { stopScroll(); return; }
+    scrollRaf = requestAnimationFrame(scrollFrame);
+  }
+  playBtn.onclick = () => {
+    if (scrolling) { stopScroll(); return; }
+    scrolling = true; playBtn.textContent = '⏸'; playBtn.classList.add('on');
+    scrollLast = 0; scrollRaf = requestAnimationFrame(scrollFrame);
+  };
+  spdUp.onclick = () => { scrollSpeed = Math.min(160, scrollSpeed + 12); };
+  spdDown.onclick = () => { scrollSpeed = Math.max(8, scrollSpeed - 12); };
   editBtn.onclick = enterEdit;
   shareBtn.onclick = () => openShareSheet({ rawText: raw, filename: current!.id + '.cho' });
 
