@@ -84,6 +84,9 @@ button.on { background:var(--accent); color:var(--onAccent); border-color:var(--
 
 /* ---------- song view ---------- */
 .song-head { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:6px; }
+.song-head .back { color:var(--accent); border-color:color-mix(in srgb, var(--accent) 45%, var(--border));
+  font-weight:600; }
+.song-head .back:hover { background:color-mix(in srgb, var(--accent) 12%, transparent); }
 .song-title { font-family:var(--font-title); font-weight:600; font-size:27px; color:var(--thead); margin:0; flex:1; }
 .arrangements { display:flex; gap:6px; flex-wrap:wrap; margin:2px 0 8px; }
 .arr { background:var(--panel); border:1px solid var(--border); color:var(--tsec); border-radius:999px;

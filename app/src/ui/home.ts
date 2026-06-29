@@ -38,11 +38,14 @@ function letterOf(title: string): string {
   return c >= 'A' && c <= 'Z' ? c : '#';
 }
 
-export function renderHome(songs: Entry[], onOpen: (e: Entry) => void): HTMLElement {
-  let filter = 'all';
-  let q = '';
-  let sort: SortMode = 'title';
-  let grid = false;
+// Persisted across navigation so returning from a song restores the list exactly.
+export interface HomeState { filter: string; q: string; sort: SortMode; grid: boolean; scrollY: number; }
+
+export function renderHome(songs: Entry[], onOpen: (e: Entry) => void, state: HomeState): HTMLElement {
+  let filter = state.filter;
+  let q = state.q.toLowerCase().trim(); // q = match string; state.q keeps the raw display value
+  let sort: SortMode = state.sort;
+  let grid = state.grid;
 
   const root = document.createElement('div'); root.className = 'home';
 
@@ -72,7 +75,7 @@ export function renderHome(songs: Entry[], onOpen: (e: Entry) => void): HTMLElem
     const c = document.createElement('span'); c.className = 'navcount'; c.textContent = String(n);
     b.append(t, c);
     if (!n) b.disabled = true;
-    b.onclick = () => { filter = id; root.classList.remove('show-filters'); syncNav(); draw(); };
+    b.onclick = () => { filter = state.filter = id; root.classList.remove('show-filters'); syncNav(); draw(); };
     return b;
   }
   function navGroup(title: string, items: HTMLElement[]): HTMLElement | null {
@@ -95,7 +98,8 @@ export function renderHome(songs: Entry[], onOpen: (e: Entry) => void): HTMLElem
 
   const search = document.createElement('input');
   search.type = 'search'; search.placeholder = 'Search songs…'; search.className = 'search';
-  search.oninput = () => { q = search.value.toLowerCase().trim(); draw(); };
+  search.value = state.q;
+  search.oninput = () => { state.q = search.value; q = state.q.toLowerCase().trim(); draw(); };
 
   const filtersToggle = document.createElement('button');
   filtersToggle.className = 'filters-toggle'; filtersToggle.textContent = '☰ Filters';
@@ -105,12 +109,13 @@ export function renderHome(songs: Entry[], onOpen: (e: Entry) => void): HTMLElem
   for (const [v, l] of [['title', 'Title'], ['key', 'Key'], ['type', 'Type']] as [SortMode, string][]) {
     const o = document.createElement('option'); o.value = v; o.textContent = 'Sort: ' + l; sortSel.appendChild(o);
   }
-  sortSel.onchange = () => { sort = sortSel.value as SortMode; draw(); };
+  sortSel.value = state.sort;
+  sortSel.onchange = () => { sort = state.sort = sortSel.value as SortMode; draw(); };
 
   const listBtn = document.createElement('button'); listBtn.textContent = '☰'; listBtn.title = 'List view';
   const gridBtn = document.createElement('button'); gridBtn.textContent = '▦'; gridBtn.title = 'Grid view';
-  listBtn.onclick = () => { grid = false; syncView(); draw(); };
-  gridBtn.onclick = () => { grid = true; syncView(); draw(); };
+  listBtn.onclick = () => { grid = state.grid = false; syncView(); draw(); };
+  gridBtn.onclick = () => { grid = state.grid = true; syncView(); draw(); };
   const viewToggle = document.createElement('div'); viewToggle.className = 'viewtoggle';
   viewToggle.append(listBtn, gridBtn);
   function syncView() { listBtn.classList.toggle('on', !grid); gridBtn.classList.toggle('on', grid); }

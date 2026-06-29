@@ -35,7 +35,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   const root = document.createElement('div'); root.className = 'view song';
   let current = primaryChart(entry);
   if (!current) {
-    const back = btn('← Songs'); back.onclick = onBack;
+    const back = btn('← Songs'); back.className = 'back'; back.onclick = onBack;
     const msg = document.createElement('p'); msg.className = 'loading'; msg.textContent = 'No chart for this song yet.';
     root.append(back, msg);
     return root;
@@ -48,7 +48,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   let fontPx = 19;
   let scrolling = false, scrollSpeed = 24, scrollAcc = 0, scrollLast = 0, scrollRaf = 0;
 
-  const back = btn('← Songs'); back.onclick = onBack;
+  const back = btn('← Songs'); back.className = 'back'; back.onclick = onBack;
   const title = document.createElement('h1'); title.className = 'song-title';
   const keyBadge = document.createElement('span'); keyBadge.className = 'badge key';
   const editedBadge = document.createElement('span'); editedBadge.className = 'badge edited'; editedBadge.textContent = 'edited';
