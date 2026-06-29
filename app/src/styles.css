@@ -154,6 +154,21 @@ button:disabled { opacity:.45; cursor:default; }
 .perform-bar button:disabled { opacity:.4; }
 .perform-counter { font-family:var(--font-mono); font-weight:600; font-size:14px; margin-right:auto; }
 .perform .controls { top:104px; } /* sit below the sticky perform bar */
+
+/* practice console (step 7) */
+.practice .practice-sub { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--tmuted); margin:10px 2px 2px; }
+.metro-row { display:flex; align-items:center; gap:8px; }
+.metro-lab { font-family:var(--font-mono); color:var(--tsec); font-size:14px; margin-right:auto; }
+.bpm-val { color:var(--accent); font-size:20px; }
+.metro-start { background:var(--accent); color:var(--onAccent); border-color:var(--accent); font-weight:600; }
+.metro-sig { display:flex; gap:6px; }
+.metro-sig button { min-width:48px; }
+.beat-dots { display:flex; gap:8px; padding:6px 2px; }
+.beat-dot { width:14px; height:14px; border-radius:50%; background:var(--track); border:1px solid var(--border); }
+.beat-dot.on { background:var(--accent); border-color:var(--accent); }
+.tune-row { display:flex; gap:6px; flex-wrap:wrap; }
+.tune-row button { min-width:48px; font-family:var(--font-mono); }
 .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; position:sticky; top:56px;
   background:var(--surface); padding:8px 0; border-bottom:1px solid var(--hborder); z-index:10; }
 .group { display:flex; align-items:center; gap:2px; background:var(--panel); border:1px solid var(--border);

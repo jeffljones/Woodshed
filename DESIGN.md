@@ -325,5 +325,8 @@ nothing clever).
    (Setlists persist per-device in localStorage; build them with ＋ Set on any song,
    reorder/remove in the setlist view, and ▶ Perform plays through with a Prev / n-of-N /
    Next / Done bar over the full song view. Auto-scroll: ▶ + speed for hands-free playing.)
-7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D). ← *next*
+7. **Practice console** (D: metronome + tuning tones) ← *done*. Notation/tab view-only SVG
+   (E, J) + PDF-only lane — *deferred until there are MusicXML/PDF masters to render*. The
+   index builder + chart `format` field already accommodate them; PDF will need a metadata
+   sidecar, and the viewers (Verovio / PDF.js) are heavy deps best added with real data.
 8. (Later) Aligned beat-grid (F).

@@ -9,6 +9,7 @@ import { loadIndex, type Entry } from './catalog';
 import { renderHome, type HomeState } from './ui/home';
 import { renderSongView } from './ui/song';
 import { renderSetlistsIndex, renderSetlistDetail, renderPerform, type SetlistNav } from './ui/setlists';
+import { openPractice } from './ui/practice';
 import { initTheme, buildThemeControl } from './theme';
 
 const app = document.getElementById('app') as HTMLElement;
@@ -42,7 +43,9 @@ function header(): HTMLElement {
   const spacer = document.createElement('div'); spacer.className = 'spacer';
   const sets = document.createElement('button'); sets.className = 'navlink'; sets.textContent = '♫ Setlists';
   sets.onclick = () => navTo('#/setlists');
-  h.append(brand, sub, spacer, sets, buildThemeControl());
+  const prac = document.createElement('button'); prac.className = 'navlink'; prac.textContent = '♩ Practice';
+  prac.onclick = openPractice;
+  h.append(brand, sub, spacer, sets, prac, buildThemeControl());
   return h;
 }
 
