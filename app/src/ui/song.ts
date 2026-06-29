@@ -5,6 +5,7 @@ import { keyPrefersFlat, soundingKey, capoHint } from '../music';
 import { overlayGet, overlaySet, overlayClear, overlayHas } from '../overlays';
 import { renderEditor } from './editor';
 import { openShareSheet } from './share';
+import { openAddToSetlist } from './addToSet';
 
 function btn(label: string): HTMLButtonElement {
   const b = document.createElement('button'); b.textContent = label; return b;
@@ -74,6 +75,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   const nashBtn = btn('Nashville');
   const fDown = btn('A−'), fUp = btn('A+');
   const editBtn = btn('✎ Edit');
+  const setBtn = btn('＋ Set');
   const shareBtn = btn('⤴ Share');
   const spdDown = btn('−'), spdUp = btn('+');
   const playBtn = btn('▶'); playBtn.title = 'Auto-scroll';
@@ -86,6 +88,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
     group([spdDown, playBtn, spdUp]),
     capo,
     editBtn,
+    setBtn,
     shareBtn,
   );
 
@@ -167,6 +170,7 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   spdDown.onclick = () => { scrollSpeed = Math.max(8, scrollSpeed - 12); };
   editBtn.onclick = enterEdit;
   shareBtn.onclick = () => openShareSheet({ rawText: raw, filename: current!.id + '.cho' });
+  setBtn.onclick = () => openAddToSetlist(current!.id);
 
   buildSwitcher();
   syncEdited();

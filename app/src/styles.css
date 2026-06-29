@@ -135,6 +135,25 @@ button:disabled { opacity:.45; cursor:default; }
   .ln.grid .barline { color:#888 !important; }
   @page { margin:1.5cm; }
 }
+
+/* ---------- setlists + performance mode (step 6) ---------- */
+.navlink { background:transparent; border:1px solid var(--border); color:var(--tsec); border-radius:10px;
+  padding:6px 12px; min-height:36px; font-size:14px; font-family:var(--font-ui); }
+.navlink:hover { color:var(--tprim); border-color:var(--accent); }
+
+.setlist-row { gap:10px; }
+.setnum { font-family:var(--font-mono); color:var(--tmuted); font-size:13px; min-width:22px; text-align:right; }
+.setlist-row .row-title { cursor:pointer; }
+.setrow-tools { display:flex; gap:4px; }
+.setrow-tools button { min-width:34px; min-height:34px; padding:4px 8px; }
+
+.perform-bar { position:sticky; top:56px; z-index:15; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  background:var(--accent); color:var(--onAccent); padding:8px 14px; }
+.perform-bar button { background:rgba(255,255,255,.16); color:var(--onAccent); border:1px solid rgba(255,255,255,.3); }
+.perform-bar button.on { background:var(--onAccent); color:var(--accent); border-color:var(--onAccent); font-weight:600; }
+.perform-bar button:disabled { opacity:.4; }
+.perform-counter { font-family:var(--font-mono); font-weight:600; font-size:14px; margin-right:auto; }
+.perform .controls { top:104px; } /* sit below the sticky perform bar */
 .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; position:sticky; top:56px;
   background:var(--surface); padding:8px 0; border-bottom:1px solid var(--hborder); z-index:10; }
 .group { display:flex; align-items:center; gap:2px; background:var(--panel); border:1px solid var(--border);

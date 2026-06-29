@@ -321,6 +321,9 @@ nothing clever).
    marks overlaid charts; revert = clear the overlay. Share sheet: **Save as PDF** via a
    themed "paper" `@media print` stylesheet reflecting the current key/Nashville, Download
    `.cho`, Copy ChordPro. All static-host-safe.)
-6. Setlists + performance mode (N). Auto-scroll (A). ← *next*
-7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D).
+6. **Setlists + performance mode** (N) + auto-scroll (A). ← *done*
+   (Setlists persist per-device in localStorage; build them with ＋ Set on any song,
+   reorder/remove in the setlist view, and ▶ Perform plays through with a Prev / n-of-N /
+   Next / Done bar over the full song view. Auto-scroll: ▶ + speed for hands-free playing.)
+7. Notation/tab view-only SVG (E, J) + PDF-only lane. Practice-console audio (D). ← *next*
 8. (Later) Aligned beat-grid (F).
