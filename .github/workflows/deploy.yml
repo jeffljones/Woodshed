@@ -29,6 +29,15 @@ jobs:
       - name: Install
         run: npm ci
         working-directory: app
+      # Masters are the source of truth: regenerate the catalog from them at deploy
+      # time, so a hand-edited or dropped-in .cho ships even if the committed
+      # index.json is stale.
+      - name: Rebuild catalog index from masters
+        run: npm run build-index
+        working-directory: app
+      - name: Validate index + music theory
+        run: npm run check && npm run theory
+        working-directory: app
       - name: Build
         run: npm run build
         working-directory: app

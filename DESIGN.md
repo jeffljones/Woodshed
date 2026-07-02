@@ -330,3 +330,10 @@ nothing clever).
    index builder + chart `format` field already accommodate them; PDF will need a metadata
    sidecar, and the viewers (Verovio / PDF.js) are heavy deps best added with real data.
 8. (Later) Aligned beat-grid (F).
+
+**Hardening pass (post-roadmap):** tolerant chord parsing (B°/F, D+, C`7, trailing
+punctuation, multi-chord brackets — with `npm run theory` regression checks), per-song
+transpose + font-size memory, graceful chart-load failures, history-correct navigation
+with preserved list state + scroll, mobile/a11y/print polish, **offline PWA** (service
+worker + manifest; charts you've opened work with no signal), and CI that rebuilds the
+index from the masters on every deploy so a stale committed index can't ship.
