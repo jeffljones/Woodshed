@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "build-index": "tsx scripts/build-index.ts",
     "check": "tsx scripts/check-index.ts",
+    "theory": "tsx scripts/theory-check.ts",
     "smoke": "tsx scripts/smoke.ts"
   },
   "devDependencies": {
