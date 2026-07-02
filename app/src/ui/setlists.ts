@@ -70,6 +70,8 @@ export function renderSetlistDetail(id: string, lookup: Lookup, nav: SetlistNav)
       const up = b('↑'); up.disabled = i === 0; up.onclick = () => { moveInSetlist(id, i, -1); draw(); };
       const dn = b('↓'); dn.disabled = i === s.songIds.length - 1; dn.onclick = () => { moveInSetlist(id, i, 1); draw(); };
       const rm = b('✕'); rm.onclick = () => { removeFromSetlist(id, sid); draw(); };
+      up.setAttribute('aria-label', 'Move up'); dn.setAttribute('aria-label', 'Move down');
+      rm.setAttribute('aria-label', 'Remove from setlist');
       const tools = document.createElement('div'); tools.className = 'setrow-tools'; tools.append(up, dn, rm);
       r.append(num, t);
       if (e && e.key) { const k = document.createElement('span'); k.className = 'badge key'; k.textContent = e.key; r.append(k); }

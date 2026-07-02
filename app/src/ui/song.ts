@@ -84,14 +84,17 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
   }
 
   const tDown = btn('−'), tUp = btn('+');
+  tDown.setAttribute('aria-label', 'Transpose down'); tUp.setAttribute('aria-label', 'Transpose up');
   const tVal = document.createElement('b'); tVal.className = 'tval';
   const nashBtn = btn('Nashville');
   const fDown = btn('A−'), fUp = btn('A+');
+  fDown.setAttribute('aria-label', 'Smaller text'); fUp.setAttribute('aria-label', 'Larger text');
   const editBtn = btn('✎ Edit');
   const setBtn = btn('＋ Set');
   const shareBtn = btn('⤴ Share');
   const spdDown = btn('−'), spdUp = btn('+');
-  const playBtn = btn('▶'); playBtn.title = 'Auto-scroll';
+  spdDown.setAttribute('aria-label', 'Scroll slower'); spdUp.setAttribute('aria-label', 'Scroll faster');
+  const playBtn = btn('▶'); playBtn.title = 'Auto-scroll'; playBtn.setAttribute('aria-label', 'Auto-scroll');
   const capo = document.createElement('span'); capo.className = 'capo';
   const controls = document.createElement('div'); controls.className = 'controls';
   controls.append(

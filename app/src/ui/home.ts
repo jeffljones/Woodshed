@@ -98,6 +98,7 @@ export function renderHome(songs: Entry[], onOpen: (e: Entry) => void, state: Ho
 
   const search = document.createElement('input');
   search.type = 'search'; search.placeholder = 'Search songs…'; search.className = 'search';
+  search.setAttribute('aria-label', 'Search songs');
   search.value = state.q;
   search.oninput = () => { state.q = search.value; q = state.q.toLowerCase().trim(); draw(); };
 
@@ -114,6 +115,7 @@ export function renderHome(songs: Entry[], onOpen: (e: Entry) => void, state: Ho
 
   const listBtn = document.createElement('button'); listBtn.textContent = '☰'; listBtn.title = 'List view';
   const gridBtn = document.createElement('button'); gridBtn.textContent = '▦'; gridBtn.title = 'Grid view';
+  listBtn.setAttribute('aria-label', 'List view'); gridBtn.setAttribute('aria-label', 'Grid view');
   listBtn.onclick = () => { grid = state.grid = false; syncView(); draw(); };
   gridBtn.onclick = () => { grid = state.grid = true; syncView(); draw(); };
   const viewToggle = document.createElement('div'); viewToggle.className = 'viewtoggle';
@@ -125,12 +127,13 @@ export function renderHome(songs: Entry[], onOpen: (e: Entry) => void, state: Ho
   toolbar.append(filtersToggle, sortSel, viewToggle, resultCount);
 
   const results = document.createElement('div'); results.className = 'results';
-  const az = document.createElement('nav'); az.className = 'az';
+  const az = document.createElement('nav'); az.className = 'az'; az.setAttribute('aria-label', 'Jump to letter');
   const azBtns: Record<string, HTMLButtonElement> = {};
   for (const L of LETTERS) {
     const b = document.createElement('button'); b.className = 'azL'; b.textContent = L;
+    b.setAttribute('aria-label', 'Jump to ' + L);
     b.onclick = () => results.querySelector<HTMLElement>(`[data-letter="${L}"]`)
-      ?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      ?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     azBtns[L] = b; az.appendChild(b);
   }
   const paneMain = document.createElement('div'); paneMain.className = 'pane-main';

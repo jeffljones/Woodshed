@@ -36,6 +36,7 @@ export function buildThemeControl(): HTMLElement {
     b.className = 'themebtn';
     b.textContent = glyph;
     b.title = `Theme: ${label}`;
+    b.setAttribute('aria-label', `Theme: ${label}`);
     b.onclick = () => { localStorage.setItem(KEY, m); apply(); sync(); };
     btns.push(b);
     wrap.appendChild(b);

@@ -123,7 +123,7 @@ button:disabled { opacity:.45; cursor:default; }
 /* themed print: a clean "paper" chart in its current key, app chrome hidden */
 @media print {
   .topbar, .controls, .arrangements, .editor-wrap, .az, .sidebar, .share-backdrop,
-  .song-head button, .capo { display:none !important; }
+  .perform-bar, .song-head button, .capo { display:none !important; }
   html, body { background:#fff !important; color:#1a1a1a !important; }
   .view, .view.song { padding:0; max-width:none; margin:0; }
   .song-head { margin-bottom:10px; }
@@ -169,6 +169,19 @@ button:disabled { opacity:.45; cursor:default; }
 .beat-dot.on { background:var(--accent); border-color:var(--accent); }
 .tune-row { display:flex; gap:6px; flex-wrap:wrap; }
 .tune-row button { min-width:48px; font-family:var(--font-mono); }
+
+/* compact song-view controls on phones — the toolbar wraps to fewer, shorter rows */
+@media (max-width:600px) {
+  .sub { display:none; }
+  .topbar { gap:8px; padding:8px 10px; }
+  .navlink { padding:5px 8px; font-size:13px; min-height:34px; }
+  .song-title { font-size:22px; }
+  .controls { gap:6px; padding:6px 0; }
+  .controls button { padding:6px 9px; font-size:13px; min-height:36px; }
+  .group { padding:2px; }
+  .lbl { padding:0 5px; font-size:12px; }
+  .capo { font-size:11px; }
+}
 .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; position:sticky; top:56px;
   background:var(--surface); padding:8px 0; border-bottom:1px solid var(--hborder); z-index:10; }
 .group { display:flex; align-items:center; gap:2px; background:var(--panel); border:1px solid var(--border);
