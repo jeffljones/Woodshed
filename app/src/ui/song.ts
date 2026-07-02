@@ -22,6 +22,19 @@ function lbl(text: string, val?: HTMLElement): HTMLElement {
 const TYPE_NAME: Record<Chart['type'], string> = {
   chord_lyric: 'Chords', bar_chart: 'Bars', tab: 'Tab', notation: 'Score',
 };
+
+// Per-device view prefs: font size persists globally, transpose per chart id — so a song
+// you always play +2 opens at +2.
+const FONT_KEY = 'woodshed:fontpx';
+const tKey = (id: string) => 'woodshed:transpose:' + id;
+function readInt(k: string, dflt: number): number {
+  try { const v = parseInt(localStorage.getItem(k) ?? '', 10); return Number.isFinite(v) ? v : dflt; }
+  catch { return dflt; }
+}
+function writeInt(k: string, v: number, dflt: number): void {
+  try { if (v === dflt) localStorage.removeItem(k); else localStorage.setItem(k, String(v)); }
+  catch { /* quota / private mode: ignore */ }
+}
 function arrLabel(c: Chart): string {
   return TYPE_NAME[c.type] + (c.key ? ' · ' + c.key : '');
 }
@@ -44,9 +57,9 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
 
   let raw = await loadText(current);
   let song = parseChordPro(raw);
-  let transpose = 0;
+  let transpose = readInt(tKey(current.id), 0);
   let nashville = false;
-  let fontPx = 19;
+  let fontPx = Math.max(12, Math.min(34, readInt(FONT_KEY, 19)));
   let scrolling = false, scrollSpeed = 24, scrollAcc = 0, scrollLast = 0, scrollRaf = 0;
 
   const back = btn('← Songs'); back.className = 'back'; back.onclick = onBack;
@@ -100,9 +113,10 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
 
   async function selectChart(c: Chart) {
     current = c;
-    transpose = 0; nashville = false;
+    transpose = readInt(tKey(c.id), 0); nashville = false;
     exitEdit();
-    raw = await loadText(c);
+    try { raw = await loadText(c); }
+    catch { wrap.innerHTML = '<p class="loading">Could not load this chart.</p>'; return; }
     song = parseChordPro(raw);
     buildSwitcher(); syncEdited(); draw();
   }
@@ -138,11 +152,11 @@ export async function renderSongView(entry: Entry, onBack: () => void): Promise<
     wrap.appendChild(el);
   }
 
-  tUp.onclick = () => { transpose++; draw(); };
-  tDown.onclick = () => { transpose--; draw(); };
+  tUp.onclick = () => { transpose++; writeInt(tKey(current!.id), transpose, 0); draw(); };
+  tDown.onclick = () => { transpose--; writeInt(tKey(current!.id), transpose, 0); draw(); };
   nashBtn.onclick = () => { nashville = !nashville; draw(); };
-  fUp.onclick = () => { fontPx = Math.min(34, fontPx + 2); draw(); };
-  fDown.onclick = () => { fontPx = Math.max(12, fontPx - 2); draw(); };
+  fUp.onclick = () => { fontPx = Math.min(34, fontPx + 2); writeInt(FONT_KEY, fontPx, 19); draw(); };
+  fDown.onclick = () => { fontPx = Math.max(12, fontPx - 2); writeInt(FONT_KEY, fontPx, 19); draw(); };
 
   // Auto-scroll (A): rAF loop scrolls the page at an adjustable rate; sub-pixel accumulated
   // so slow speeds still move. Self-stops at the bottom or when the view is torn down.

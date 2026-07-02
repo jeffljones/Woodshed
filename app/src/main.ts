@@ -51,14 +51,28 @@ function header(): HTMLElement {
 
 function mount(view: HTMLElement) { app.innerHTML = ''; app.append(header(), view); }
 
+function errorView(msg: string): HTMLElement {
+  const d = document.createElement('div'); d.className = 'view';
+  const back = document.createElement('button'); back.className = 'back'; back.textContent = '← Back';
+  back.onclick = () => history.back();
+  const p = document.createElement('p'); p.className = 'loading'; p.textContent = msg;
+  d.append(back, p); return d;
+}
+
 function showHome() {
   mount(renderHome(songs, openSong, homeState));
   requestAnimationFrame(() => window.scrollTo(0, homeState.scrollY));
 }
-async function showSong(e: Entry) { mount(await renderSongView(e, goBack)); window.scrollTo(0, 0); }
+async function showSong(e: Entry) {
+  try { mount(await renderSongView(e, goBack)); window.scrollTo(0, 0); }
+  catch { mount(errorView(`Could not load the chart for “${e.title}”.`)); }
+}
 function showSetlists() { mount(renderSetlistsIndex(setlistNav)); window.scrollTo(0, 0); }
 function showSetlist(id: string) { mount(renderSetlistDetail(id, (x) => byId.get(x), setlistNav)); window.scrollTo(0, 0); }
-async function showPerform(id: string, i: number) { mount(await renderPerform(id, i, (x) => byId.get(x), setlistNav)); window.scrollTo(0, 0); }
+async function showPerform(id: string, i: number) {
+  try { mount(await renderPerform(id, i, (x) => byId.get(x), setlistNav)); window.scrollTo(0, 0); }
+  catch { mount(errorView('Could not load this setlist chart.')); }
+}
 
 function openSong(e: Entry) {
   homeState.scrollY = window.scrollY;

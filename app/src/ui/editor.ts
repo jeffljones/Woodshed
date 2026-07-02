@@ -36,6 +36,9 @@ export function renderEditor(o: EditorOpts): HTMLElement {
     }));
   }
   ta.oninput = draw;
+  ta.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); o.onSave(ta.value); }
+  });
 
   const save = ebtn('Save'); save.className = 'on';
   const revert = ebtn('Revert to master'); revert.disabled = !o.hasOverlay;
