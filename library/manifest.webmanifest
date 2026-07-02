@@ -1,0 +1,10 @@
+{
+  "name": "Woodshed",
+  "short_name": "Woodshed",
+  "description": "Music library & chart viewer — transpose, Nashville numbers, setlists, practice tools.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#141619",
+  "theme_color": "#141619",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

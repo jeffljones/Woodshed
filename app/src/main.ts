@@ -112,3 +112,10 @@ async function boot() {
 
 initTheme();
 boot();
+
+// Offline: register the service worker (library/sw.js ships at the app root).
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* http / unsupported: fine */ });
+  });
+}
